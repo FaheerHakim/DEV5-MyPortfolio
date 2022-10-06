@@ -1,10 +1,10 @@
 import Card from "./card.js";
 
 // 🔥🔥🔥 TODO 1 - make sure to export the class, if you want to be able to import the class elsewhere
-class Bingo {
+export default class Bingo {
   constructor() {
     // the constructor is called when you create a new instance of the class
-    console.log("Welcome to Bingo! 🎉");
+   // console.log("Welcome to Bingo! 🎉");
 
     // an array including 25 cards (5x5)
     this.cards = [
@@ -53,7 +53,19 @@ class Bingo {
     // let card = new Card(this.cards[i]);
     // render the card
     // card.render();
+  
+    let i = 0;
+    while(i < this.cards.length){
+      let card = new Card(this.cards[i]);
+      card.render();
+      i++;
+    }
   }
+
+  
+
+
+
 
   static checkWinner() {
     // a static function can be called without creating an instance of the class
