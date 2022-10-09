@@ -4,7 +4,7 @@ import Card from "./card.js";
 export default class Bingo {
   constructor() {
     // the constructor is called when you create a new instance of the class
-   // console.log("Welcome to Bingo! 🎉");
+    console.log("Welcome to Bingo! 🎉");
 
     // an array including 25 cards (5x5)
     this.cards = [
@@ -49,10 +49,10 @@ export default class Bingo {
     // 🔥🔥🔥 TODO 2
     // loop through all the cards in the array and create a new instance of a Card()
     // for()
-    // create a new card object
-    // let card = new Card(this.cards[i]);
-    // render the card
-    // card.render();
+    /*for (let i = 0; i < this.cards.length; i++) {
+      let card = new Card(this.cards[i]);
+      card.render(i);
+    }*/
   
     let i = 0;
     while(i < this.cards.length){
@@ -60,6 +60,7 @@ export default class Bingo {
       card.render();
       i++;
     }
+    
   }
 
   
@@ -73,11 +74,11 @@ export default class Bingo {
 
     // 🔥🔥🔥 TODO 6
     // count all cards that are marked as done (select done items and count them with .length)
-    /// let cardsDone = ;
-    // if (cardsDone.length === 5) {
+     let cardsDone = document.querySelectorAll(".bingo__card--done");
+     if (cardsDone.length === 5) {
     // show the animated gif to the winner
-    // document.querySelector(".bingo__overlay").style.display = "block";
-    // }
+     document.querySelector(".bingo__overlay").style.display = "block";
+     }
   }
 
   static save() {
@@ -87,12 +88,19 @@ export default class Bingo {
     // https://developer.mozilla.org/en-US/docs/Web/API/Window/localStorage
     let cardsWon = [];
     console.log("Saving bingo to localstorage");
-    // let cards = document.querySelectorAll(".bingo__card--done");
+     let cards = document.querySelectorAll(".bingo__card--done");
+      
+     for (let i = 0; i < cards.length; i++) {
+        cardsWon.push(cards[i].dataset.number);
+     }
+      localStorage.setItem("bingo", JSON.stringify(cardsWon));
+    
 
     // if there are not done cards, remove localstorage
-    // if (cards.length === 0) {
+     if (cards.length === 0) {
+        localStorage.removeItem("bingo");
     // remove localstorage
-    // }
+     }
 
     // save a selection like [1, 7, 8] to localstorage item "bingo"
     // you might want to check out how JSON.stringify() works
@@ -107,7 +115,11 @@ export default class Bingo {
 
     // check if localstorage item exists
     if (localStorage.getItem("bingo")) {
-      // let cardsWon = JSON.parse();
+       let cardsWon = JSON.parse(localStorage.getItem("bingo"));
+        for (let i = 0; i < cardsWon.length; i++) {
+          let card = document.querySelector(`[data-number="${cardsWon[i]}"]`);
+          card.classList.add("bingo__card--done");
+        } 
       // JSON.parse() will convert the string [1, 7, 8] back to an array which you can loop
       // loop over the numbers 1, 7, 8 and mark those cards as done by adding the right CSS class
       // .bingo__card--done
