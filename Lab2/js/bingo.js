@@ -57,7 +57,7 @@ export default class Bingo {
     let i = 0;
     while(i < this.cards.length){
       let card = new Card(this.cards[i]);
-      card.render();
+      card.render(i);
       i++;
     }
     
@@ -87,18 +87,21 @@ export default class Bingo {
     // you can simply save an array with the card numbers like [1, 6, 8]
     // https://developer.mozilla.org/en-US/docs/Web/API/Window/localStorage
     let cardsWon = [];
-    console.log("Saving bingo to localstorage");
      let cards = document.querySelectorAll(".bingo__card--done");
       
-     for (let i = 0; i < cards.length; i++) {
+     for (let i = 0; i<cards.length; i++) {
         cardsWon.push(cards[i].dataset.number);
      }
+      console.log(cardsWon);
+
       localStorage.setItem("bingo", JSON.stringify(cardsWon));
+      console.log("saving bingo selection to localstorage");
     
 
     // if there are not done cards, remove localstorage
      if (cards.length === 0) {
         localStorage.removeItem("bingo");
+        console.log("removing bingo selection from localstorage");
     // remove localstorage
      }
 
@@ -111,14 +114,13 @@ export default class Bingo {
     // load the cards that are done from localstorage
     // this works the other way around of the save function
     // load the saved string from localstorage and parse it as an array, then loop over it
-    console.log("loading bingo selection from localstorage");
 
     // check if localstorage item exists
     if (localStorage.getItem("bingo")) {
        let cardsWon = JSON.parse(localStorage.getItem("bingo"));
+
         for (let i = 0; i < cardsWon.length; i++) {
-          let card = document.querySelector(`[data-number="${cardsWon[i]}"]`);
-          card.classList.add("bingo__card--done");
+          document.querySelector(`[data-number="${cardsWon[i]}"]`).classList.add("bingo__card--done");
         } 
       // JSON.parse() will convert the string [1, 7, 8] back to an array which you can loop
       // loop over the numbers 1, 7, 8 and mark those cards as done by adding the right CSS class
